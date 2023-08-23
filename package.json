@@ -1,0 +1,38 @@
+{
+  "name": "strapi-gcp-installer",
+  "version": "0.0.4",
+  "description": "CLI to get Strapi running on the GCP",
+  "keywords": [
+    "Strapi",
+    "Google Cloud Platform",
+    "GCP",
+    "App Engine",
+    "GitHub Actions",
+    "Installer",
+    "Setup"
+  ],
+  "author": "faessler",
+  "license": "MIT",
+  "homepage": "https://github.com/faessler/strapi-gcp-installer#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/faessler/strapi-gcp-installer.git"
+  },
+  "bugs": {
+    "url": "https://github.com/faessler/strapi-gcp-installer/issues"
+  },
+  "type": "module",
+  "bin": "./bin.js",
+  "main": "./dist/index.js",
+  "scripts": {
+    "start": "tsc --build && node dist/index.js ./foobar",
+    "build": "tsc --build"
+  },
+  "devDependencies": {
+    "@types/node": "^20.5.1",
+    "prettier": "^3.0.2"
+  },
+  "dependencies": {
+    "@inquirer/prompts": "^3.0.3"
+  }
+}
