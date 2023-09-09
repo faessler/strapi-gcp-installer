@@ -1,4 +1,4 @@
-| *⚠️ alpha version*
+| _⚠️ alpha version_
 
 # Strapi Google Cloud Platform Installer - CLI
 
@@ -17,3 +17,12 @@ Doesn't it take like forever to get a Strapi running on the GCP? Not anymore! Wi
 ```
 npx strapi-gcp-installer <folder>
 ```
+
+## Options
+
+npx strapi-gcp-installer <folder> --verbose=true --github-actions=false
+
+| flag               | default | description                                                      |
+| ------------------ | ------- | ---------------------------------------------------------------- |
+| `--verbose`        | false   | Will log aditional information if set to `true`.                 |
+| `--github-actions` | true    | Will skip GitHub repository and Actions setup if set to `false`. |

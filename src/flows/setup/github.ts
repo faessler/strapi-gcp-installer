@@ -1,9 +1,9 @@
-import { cli } from "../utils/cli.js";
-import { getStrapiRelativePath } from "../actions/getStrapiRelativePath.js";
-import { log, logError } from "../utils/log.js";
-import { getStrapiDotEnvFile } from "../actions/getStrapiDotEnvFile.js";
-import { createWorkflowDeployStrapi } from "../actions/createWorkflowDeployStrapi.js";
-import { createGitHubRepository } from "../actions/createGitHubRepository.js";
+import { $ } from "src/utils/$.js";
+import { getStrapiRelativePath } from "../../actions/getStrapiRelativePath.js";
+import { log, logError } from "../../utils/log.js";
+import { getStrapiDotEnvFile } from "../../actions/getStrapiDotEnvFile.js";
+import { createWorkflowDeployStrapi } from "../../actions/createWorkflowDeployStrapi.js";
+import { createGitHubRepository } from "../../actions/createGitHubRepository.js";
 
 export const setupGitHub = async () => {
   try {
@@ -26,16 +26,19 @@ export const setupGitHub = async () => {
         GCP_PROJECT_ID: process.env.GCP_PROJECT_ID,
       };
       for (const [name, body] of Object.entries(secrets)) {
-        await cli(
-          `gh ${name === "STRAPI_DIR" ? "variable" : "secret"} set ${name} --body="${body}" --repo="${process.env.GITHUB_REPOSITORY}"`,
+        await $(
+          `gh ${
+            name === "STRAPI_DIR" ? "variable" : "secret"
+          } set ${name} --body="${body}" --repo="${process.env.GITHUB_REPOSITORY}"`,
         );
       }
     }
-
   } catch (error) {
     logError({
       title: `An error occured inside setupGitHub.`,
       message: error,
     });
   }
+
+  console.log("");
 };

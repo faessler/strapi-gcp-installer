@@ -1,30 +1,25 @@
 import { logChapter } from "./utils/log.js";
-import { checkPrerequisites } from "./flows/checkPrerequisites.js";
-import { setupVariables } from "./flows/setupVariables.js";
-import { setupStrapi } from "./flows/setupStrapi.js";
-import { setupGCP } from "./flows/setupGCP.js";
-import { setupGitHub } from "./flows/setupGitHub.js";
+import { getFlags } from "./actions/getFlags.js";
+import { checkPrerequisites } from "./flows/prerequisites/index.js";
+import { setVariables } from "./flows/variables/index.js";
+import { setup } from "./flows/setup/index.js";
 
 (async () => {
   process.env.TARGET_DIR = process.argv[2];
+  const flags = getFlags();
+  process.env.FLAG_VERBOSE = flags?.["verbose"] ?? "false";
+  process.env.FLAG_GITHUB_ACTIONS = flags?.["github-actions"] ?? "true";
 
   // Check prerequisites
-  logChapter("[1/5] Checking Prerequisites");
+  logChapter("[1/3] Checking Prerequisites");
   await checkPrerequisites();
 
-  // Setup Variables
-  logChapter("[2/5] Customization");
-  await setupVariables();
+  // Set variables
+  logChapter("[2/3] Customization");
+  await setVariables();
+  // await setupVariables();
 
-  // Setup Strapi
-  logChapter("[3/5] Setup Strapi");
-  await setupStrapi();
-
-  // Setup Google Cloud Platform
-  logChapter("[4/5] Setup Google Cloud Platform");
-  await setupGCP();
-
-  // Setup GitHub
-  logChapter("[5/5] Setup GitHub");
-  await setupGitHub();
+  // Setup
+  logChapter("[3/3] Setup project");
+  await setup();
 })();

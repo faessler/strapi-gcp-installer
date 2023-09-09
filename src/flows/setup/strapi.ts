@@ -1,6 +1,6 @@
-import { hasExistingStrapiProject } from "../utils/hasExistingStrapiProject.js";
-import { log, logError } from "../utils/log.js";
-import { streamChildProcess } from "../utils/streamChildProcess.js";
+import { hasExistingStrapiProject } from "../../utils/hasExistingStrapiProject.js";
+import { log, logError } from "../../utils/log.js";
+import { streamChildProcess } from "../../utils/streamChildProcess.js";
 
 export const setupStrapi = async () => {
   try {
@@ -12,4 +12,5 @@ export const setupStrapi = async () => {
   } catch (error) {
     logError({ title: `An error occured inside setupStrapi.`, message: error });
   }
+  console.log("");
 };
