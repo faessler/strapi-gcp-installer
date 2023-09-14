@@ -41,13 +41,16 @@ jobs:
         uses: "actions/checkout@v3"
 
       - name: "Apply env_variables to app.yaml"
-        run: echo "\nenv_variables:\n\${{ secrets.STRAPI_ENV_VARIABLES }}" | sed -e 's/=/: /' | sed -e 's/^#.*//' | sed -e 's/^/  /' | sed -e 's/^  env_variables:/env_variables:/' >> \${{ variable.STRAPI_DIR }}/app.yaml
+        env:
+          ENV_VARS: \${{ secrets.STRAPI_ENV_VARIABLES }}
+        run: |
+          echo -e "\nenv_variables:\n$ENV_VARS" | sed -e 's/=/: /' | sed -e 's/^#.*//' | sed -e 's/^/  /' | sed -e 's/^  env_variables:/env_variables:/' >> \${{ vars.STRAPI_DIR }}/app.yaml
 
       - name: "Apply workflow dispatch inputs to app.yaml"
         run: |
-          sed -i -e 's/instance_class:.*$/instance_class: \${{ inputs.instanceClass }}/g' \${{ variable.STRAPI_DIR }}/app.yaml
-          sed -i -e 's/min_instances:.*$/min_instances: \${{ inputs.minInstances }}/g' \${{ variable.STRAPI_DIR }}/app.yaml
-          sed -i -e 's/max_instances:.*$/max_instances: \${{ inputs.maxInstances }}/g' \${{ variable.STRAPI_DIR }}/app.yaml
+          sed -i -e 's/instance_class:.*$/instance_class: \${{ inputs.instanceClass }}/g' \${{ vars.STRAPI_DIR }}/app.yaml
+          sed -i -e 's/min_instances:.*$/min_instances: \${{ inputs.minInstances }}/g' \${{ vars.STRAPI_DIR }}/app.yaml
+          sed -i -e 's/max_instances:.*$/max_instances: \${{ inputs.maxInstances }}/g' \${{ vars.STRAPI_DIR }}/app.yaml
 
       - name: Google Auth
         uses: "google-github-actions/auth@v1"
@@ -58,7 +61,7 @@ jobs:
       - name: Google App Engine
         uses: "google-github-actions/deploy-appengine@v1"
         with:
-          working_directory: \${{ variable.STRAPI_DIR }}
+          working_directory: \${{ vars.STRAPI_DIR }}
           project_id: \${{ secrets.GCP_PROJECT_ID }}
 
       - name: "Delete artifacts"
